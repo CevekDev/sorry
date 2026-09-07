@@ -1,8 +1,8 @@
-# sorry_bibiyiw
+# sorry
 
 A single-page apology letter, hosted on GitHub Pages.
 
-**Live:** https://cevekmehdi-a11y.github.io/sorry_bibiyiw/
+**Live:** https://cevekdev.github.io/sorry/
 
 ## Files
 

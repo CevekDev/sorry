@@ -1,0 +1,856 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FFF6F9">
+<title>One More Chance</title>
+<meta property="og:title" content="I'm sorry.">
+<meta property="og:description" content="Something I needed to say to you properly.">
+<meta property="og:type" content="website">
+<style>
+  html{color-scheme:light}
+  body{margin:0}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Quicksand:wght@400;500;600;700&family=Yeseva+One&display=swap">
+
+<style>
+  :root{
+    --milk:#FFF6F9;
+    --blush:#FFE4EF;
+    --white:#FFFFFF;
+    --pink:#F0357F;
+    --pink-hi:#FF6BAB;
+    --pink-lo:#D62A6E;
+    --pink-soft:#FFA6C9;
+    --pink-ink:#8E2F58;
+    --plum:#5C3247;
+    --muted:#8A6076;
+    --lilac:#C9A6F0;
+    --pearl:#F5C87A;
+    --line:#FFD3E4;
+    --wa:#1EA855;
+
+    --display:"Yeseva One",Georgia,"Times New Roman",serif;
+    --body:"Quicksand","Trebuchet MS",Verdana,sans-serif;
+    --hand:"Caveat","Segoe Script",cursive;
+
+    --pad:clamp(1.15rem,5.5vw,2.5rem);
+    --shadow:0 18px 40px -22px rgba(214,42,110,.55);
+    --shadow-lg:0 30px 70px -34px rgba(214,42,110,.7);
+  }
+
+  *{box-sizing:border-box}
+
+  /* .backdrop sets display:flex, which outranks the UA rule for [hidden] and
+     leaves an invisible full-screen overlay swallowing every click. Keep this. */
+  [hidden]{display:none !important}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 1.5px 1.5px, rgba(240,53,127,.09) 1.4px, transparent 1.5px) 0 0/18px 18px,
+      radial-gradient(40rem 30rem at 88% -4%, rgba(201,166,240,.32), transparent 62%),
+      radial-gradient(38rem 28rem at 4% 102%, rgba(255,166,201,.42), transparent 62%),
+      linear-gradient(168deg, var(--milk) 0%, #FFEDF4 46%, var(--blush) 100%);
+    color:var(--plum);
+    font-family:var(--body);
+    font-size:16px;
+    font-weight:500;
+    line-height:1.75;
+    overflow-x:hidden;
+    overflow-wrap:break-word;
+    -webkit-font-smoothing:antialiased;
+    -webkit-text-size-adjust:100%;
+  }
+
+  canvas#ambient{position:fixed;inset:0;z-index:0;pointer-events:none}
+  canvas#fx{position:fixed;inset:0;z-index:60;pointer-events:none}
+
+  main{
+    position:relative;z-index:2;
+    max-width:36rem;
+    margin:0 auto;
+    padding:clamp(2.6rem,10vw,5rem) var(--pad) calc(3.5rem + env(safe-area-inset-bottom));
+    display:flex;flex-direction:column;
+    gap:clamp(2.2rem,8vw,3.4rem);
+  }
+
+  /* ---------- pearls ---------- */
+  .pearls{
+    display:flex;justify-content:center;align-items:center;
+    gap:.42rem;padding:.2rem 0;
+  }
+  .pearls i{
+    display:block;width:9px;height:9px;border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #fff 8%, #FFE0EE 42%, #F3A6CA 100%);
+    box-shadow:0 1px 3px rgba(214,42,110,.28);
+  }
+  .pearls i:nth-child(even){
+    width:7px;height:7px;
+    background:radial-gradient(circle at 32% 28%, #fff 8%, #FFF0D9 42%, var(--pearl) 100%);
+  }
+
+  /* ---------- hero ---------- */
+  .hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.7rem}
+  .whisper{
+    font-family:var(--hand);
+    font-size:clamp(1.25rem,5.5vw,1.55rem);
+    line-height:1.15;color:var(--pink);margin:0;
+  }
+  h1{
+    font-family:var(--display);
+    font-size:clamp(3rem,14vw,5rem);
+    line-height:1.02;letter-spacing:-.015em;
+    margin:0;text-wrap:balance;color:var(--pink-ink);
+  }
+  h1 .dot{color:var(--pink)}
+  .lede{
+    margin:0;max-width:26ch;
+    font-size:clamp(1rem,4vw,1.1rem);
+    color:var(--muted);text-wrap:balance;
+  }
+  .bow{width:clamp(46px,15vw,62px);height:auto;color:var(--pink);filter:drop-shadow(0 4px 8px rgba(240,53,127,.3))}
+  .bow.beat{animation:beat 2.6s ease-in-out infinite;transform-origin:center}
+  @keyframes beat{
+    0%,100%{transform:scale(1) rotate(0deg)}
+    12%{transform:scale(1.12) rotate(-3deg)}
+    26%{transform:scale(1) rotate(0deg)}
+    38%{transform:scale(1.07) rotate(2deg)}
+    52%{transform:scale(1) rotate(0deg)}
+  }
+
+  /* ---------- letter card ---------- */
+  .letter{
+    position:relative;
+    background:var(--white);
+    border-radius:30px;
+    padding:calc(var(--pad) + .5rem) var(--pad);
+    box-shadow:var(--shadow);
+  }
+  .letter::before{
+    content:"";position:absolute;inset:9px;
+    border:1.5px dashed var(--line);
+    border-radius:22px;pointer-events:none;
+  }
+  .letter .inner{position:relative;display:flex;flex-direction:column;gap:1.15rem}
+  .letter p{margin:0}
+  .letter p.open::first-letter{
+    font-family:var(--display);
+    font-size:3.1em;line-height:.86;
+    float:left;padding:.1em .14em 0 0;
+    color:var(--pink);
+  }
+  .hl{font-style:normal;color:var(--pink);font-weight:700}
+
+  /* ---------- promises ---------- */
+  .promises{display:flex;flex-direction:column;gap:.7rem}
+  .eyebrow{
+    font-size:.68rem;font-weight:700;
+    letter-spacing:.22em;text-transform:uppercase;
+    color:var(--pink);text-align:center;
+    margin:0 0 .3rem;
+  }
+  .promise{
+    display:grid;grid-template-columns:26px 1fr;
+    gap:0 .85rem;align-items:start;
+    background:rgba(255,255,255,.82);
+    border:1.5px solid var(--line);
+    border-radius:22px;
+    padding:.95rem 1.05rem;
+  }
+  .promise .bow{width:22px;margin-top:.3rem;filter:none}
+  .promise h3{
+    margin:0;font-family:var(--display);
+    font-weight:400;font-size:1.08rem;
+    line-height:1.35;color:var(--pink-ink);
+  }
+  .promise p{margin:.2rem 0 0;color:var(--muted);font-size:.9rem;line-height:1.6}
+
+  /* ---------- the ask ---------- */
+  .ask{
+    position:relative;text-align:center;
+    background:var(--white);
+    border-radius:34px;
+    padding:calc(var(--pad) + .6rem) var(--pad) calc(var(--pad) + .2rem);
+    box-shadow:var(--shadow-lg);
+    transition:opacity .45s ease, transform .45s ease, filter .45s ease;
+  }
+  .ring{
+    position:absolute;inset:0;
+    border:2px solid var(--pink-soft);
+    border-radius:34px;pointer-events:none;opacity:0;
+    animation:ring 4.2s cubic-bezier(.2,.6,.3,1) infinite;
+  }
+  .ring:nth-of-type(2){animation-delay:1.4s}
+  .ring:nth-of-type(3){animation-delay:2.8s}
+  @keyframes ring{
+    0%{transform:scale(1);opacity:.75}
+    70%{opacity:0}
+    100%{transform:scale(1.14);opacity:0}
+  }
+  .ask-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:.55rem}
+  .ask h2{
+    font-family:var(--display);
+    font-size:clamp(1.7rem,7vw,2.3rem);
+    line-height:1.16;margin:.4rem 0 0;
+    color:var(--pink-ink);text-wrap:balance;
+  }
+  .ask .sub{margin:0;max-width:25ch;color:var(--muted);font-size:.93rem;line-height:1.6}
+
+  .choices{
+    display:flex;align-items:center;justify-content:center;
+    gap:clamp(.9rem,5vw,1.6rem);
+    width:100%;
+    min-height:clamp(118px,32vw,144px);
+    margin-top:.6rem;
+  }
+  .btn{
+    font-family:var(--body);
+    font-weight:700;font-size:1.02rem;
+    letter-spacing:.02em;
+    min-height:50px;min-width:104px;
+    padding:.8rem 1.9rem;
+    border-radius:999px;border:2px solid transparent;
+    cursor:pointer;transform-origin:center;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-user-select:none;user-select:none;
+    transition:transform .4s cubic-bezier(.34,1.5,.64,1), box-shadow .3s ease, background .3s ease, color .3s ease, border-color .3s ease, opacity .3s ease;
+    will-change:transform;
+  }
+  .btn:focus-visible{outline:3px solid var(--lilac);outline-offset:3px}
+
+  #yes{
+    color:#fff;
+    background:linear-gradient(160deg,var(--pink-hi),var(--pink) 52%,var(--pink-lo));
+    box-shadow:0 12px 26px -10px rgba(240,53,127,.8), inset 0 2px 0 rgba(255,255,255,.45);
+  }
+  #no{
+    color:var(--muted);
+    background:var(--white);
+    border-color:var(--line);
+  }
+
+  .caption{
+    margin:.9rem 0 0;font-family:var(--hand);
+    font-size:1.15rem;line-height:1.25;color:var(--muted);
+  }
+
+  /* ---------- signature ---------- */
+  .sign{display:flex;flex-direction:column;align-items:center;gap:.15rem;text-align:center}
+  .sign .sig{font-family:var(--hand);font-size:1.85rem;line-height:1.2;color:var(--pink-ink)}
+  .sign small{color:var(--muted);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+
+  /* ---------- explosion ---------- */
+  .flash{
+    position:fixed;z-index:70;pointer-events:none;
+    width:min(24rem,88vw);aspect-ratio:1;border-radius:50%;
+    opacity:0;transform:translate(-50%,-50%) scale(.2);
+    background:radial-gradient(circle, rgba(255,255,255,.98), rgba(255,107,171,.75) 34%, rgba(255,166,201,0) 70%);
+  }
+  .flash.go{animation:flash .62s ease-out forwards}
+  @keyframes flash{
+    0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}
+    18%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+    100%{opacity:0;transform:translate(-50%,-50%) scale(2.1)}
+  }
+  .shake{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
+  @keyframes shake{
+    10%,90%{transform:translate3d(-2px,0,0)}
+    20%,80%{transform:translate3d(4px,0,0)}
+    30%,50%,70%{transform:translate3d(-6px,1px,0)}
+    40%,60%{transform:translate3d(6px,-1px,0)}
+  }
+  .ask.gone{opacity:0;transform:scale(.92);filter:blur(5px);pointer-events:none}
+
+  /* ---------- modal ---------- */
+  .backdrop{
+    position:fixed;inset:0;z-index:80;
+    display:flex;align-items:center;justify-content:center;
+    overflow-y:auto;
+    padding:calc(1rem + env(safe-area-inset-top)) 1rem calc(1rem + env(safe-area-inset-bottom));
+    background:rgba(255,224,238,.72);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    opacity:0;transition:opacity .5s ease;
+  }
+  .backdrop.show{opacity:1}
+  .card{
+    width:min(25rem,100%);
+    margin:auto;text-align:center;
+    background:var(--white);
+    border-radius:32px;
+    padding:calc(var(--pad) + .6rem) var(--pad);
+    box-shadow:0 40px 90px -40px rgba(214,42,110,.85);
+    display:flex;flex-direction:column;align-items:center;gap:.35rem;
+    transform:translateY(24px) scale(.94);
+    transition:transform .62s cubic-bezier(.2,1.3,.4,1);
+  }
+  .backdrop.show .card{transform:translateY(0) scale(1)}
+  .card h2{
+    font-family:var(--display);
+    font-size:clamp(2.1rem,10vw,2.9rem);
+    line-height:1.05;margin:.15rem 0 .5rem;color:var(--pink-ink);
+  }
+  .card .msg{margin:0;max-width:23ch;font-size:1.02rem;font-weight:600;color:var(--plum)}
+  .card .wa{
+    display:inline-flex;align-items:center;gap:.28em;
+    color:var(--wa);font-weight:700;white-space:nowrap;
+  }
+  .card .wa svg{width:1em;height:1em}
+  .card .after{margin:.85rem 0 0;max-width:24ch;color:var(--muted);font-size:.88rem;line-height:1.6}
+  .card button{
+    margin-top:1.5rem;
+    font-family:var(--body);font-weight:700;font-size:.95rem;
+    letter-spacing:.05em;min-height:48px;
+    padding:.75rem 2.2rem;border-radius:999px;border:none;
+    background:linear-gradient(160deg,var(--pink-hi),var(--pink) 52%,var(--pink-lo));
+    color:#fff;cursor:pointer;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+    box-shadow:0 12px 26px -12px rgba(240,53,127,.85), inset 0 2px 0 rgba(255,255,255,.45);
+    transition:transform .25s ease,box-shadow .25s ease;
+  }
+  .card button:hover{transform:translateY(-2px)}
+  .card button:focus-visible{outline:3px solid var(--lilac);outline-offset:3px}
+
+  /* ---------- entrance ---------- */
+  .rise{animation:rise .8s cubic-bezier(.16,.84,.32,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .hero .whisper{animation-delay:.04s}
+  .hero h1{animation-delay:.13s}
+  .hero .lede{animation-delay:.24s}
+  .hero .bow{animation-delay:.34s,0s}
+  .letter{animation-delay:.42s}
+  .promises{animation-delay:.52s}
+  .ask{animation-delay:.62s}
+  .sign{animation-delay:.72s}
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+    }
+  }
+</style>
+
+<canvas id="ambient" aria-hidden="true"></canvas>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="bow" viewBox="0 0 24 16">
+    <path fill="currentColor" d="M12 8C9.2 3.1 4.4 2.3 2.7 5.3 1.3 8 3.6 11.6 6.7 11.1 9.2 10.7 11 9.2 12 8Z"/>
+    <path fill="currentColor" d="M12 8c2.8-4.9 7.6-5.7 9.3-2.7 1.4 2.7-.9 6.3-4 5.8C14.8 10.7 13 9.2 12 8Z"/>
+    <path fill="currentColor" d="M10.6 8.6 8.2 15.4a.5.5 0 0 0 .8.5l3.4-4.6ZM13.4 8.6l2.4 6.8a.5.5 0 0 1-.8.5l-3.4-4.6Z"/>
+    <ellipse fill="currentColor" cx="12" cy="8.1" rx="2.1" ry="1.9"/>
+  </symbol>
+</svg>
+
+<main id="page">
+
+  <header class="hero">
+    <p class="whisper rise">before you close this &mdash;</p>
+    <h1 class="rise">I&rsquo;m sorry<span class="dot">.</span></h1>
+    <p class="lede rise">Not the quick kind. The kind I&rsquo;ve been carrying around all week.</p>
+    <svg class="bow beat rise" viewBox="0 0 24 16" aria-hidden="true"><use href="#bow"/></svg>
+  </header>
+
+  <div class="pearls" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <section class="letter rise">
+    <div class="inner">
+      <p class="open">I have replayed our fight more times than I can count, and every version of it ends the same way &mdash; with me wishing I had just stopped talking and listened to you.</p>
+      <p>I&rsquo;m not going to hand you an excuse. I said things I didn&rsquo;t mean. I let my pride matter more than your feelings, and I did it to the one person who has never given me a reason to doubt her. That&rsquo;s on me. Not on a long day, not on a misunderstanding &mdash; <em class="hl">on me</em>.</p>
+      <p><em class="hl">I should never have hung up on you.</em> That&rsquo;s the moment I keep coming back to &mdash; the second I ended the call instead of staying on the line and fixing it with you. I regret all of it. Not only the words, but the silence I left after them.</p>
+      <p>And it isn&rsquo;t only that night. When I had the chance, I should have asked you out more often. I should have called you more often, for no reason at all, just to hear you. I had the time and I didn&rsquo;t spend it on you, and I hate that I made you feel like you weren&rsquo;t the most important person in my world &mdash; because you are, and you have been every single day since I met you.</p>
+      <p>I&rsquo;m not asking you to pretend it never happened. I&rsquo;m asking for <em class="hl">one more chance</em> &mdash; one chance to show you I actually learned something this time.</p>
+    </div>
+  </section>
+
+  <section class="promises rise">
+    <p class="eyebrow">What changes from here</p>
+
+    <div class="promise">
+      <svg class="bow" viewBox="0 0 24 16" aria-hidden="true"><use href="#bow"/></svg>
+      <div>
+        <h3>I listen before I answer</h3>
+        <p>All the way to the end of your sentence, even when I think I already know where it&rsquo;s going. Especially then.</p>
+      </div>
+    </div>
+
+    <div class="promise">
+      <svg class="bow" viewBox="0 0 24 16" aria-hidden="true"><use href="#bow"/></svg>
+      <div>
+        <h3>I say it kindly or I wait</h3>
+        <p>If I can&rsquo;t say it without hurting you, I take the ten minutes I need first. Being right was never worth this.</p>
+      </div>
+    </div>
+
+    <div class="promise">
+      <svg class="bow" viewBox="0 0 24 16" aria-hidden="true"><use href="#bow"/></svg>
+      <div>
+        <h3>I never hang up on you again</h3>
+        <p>However bad it gets, I stay on the line until you&rsquo;re done talking. No more days of nothing after.</p>
+      </div>
+    </div>
+
+    <div class="promise">
+      <svg class="bow" viewBox="0 0 24 16" aria-hidden="true"><use href="#bow"/></svg>
+      <div>
+        <h3>I take you out, and I call you first</h3>
+        <p>Real plans, real nights out, and calls for no reason at all &mdash; not only when it happens to be convenient for me.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ask rise" id="ask">
+    <span class="ring" aria-hidden="true"></span>
+    <span class="ring" aria-hidden="true"></span>
+    <span class="ring" aria-hidden="true"></span>
+    <div class="ask-inner">
+      <div class="pearls" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <h2>Can I call you?<br>I miss your voice.</h2>
+      <p class="sub">Texting can&rsquo;t say this properly. Five minutes. That&rsquo;s all I&rsquo;m asking for.</p>
+      <div class="choices">
+        <button class="btn" id="yes" type="button">Yes</button>
+        <button class="btn" id="no" type="button">No</button>
+      </div>
+      <p class="caption">(there&rsquo;s really only one right answer here)</p>
+    </div>
+  </section>
+
+  <footer class="sign rise">
+    <div class="pearls" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <span class="sig">yours, always</span>
+    <small>still waiting by the phone</small>
+  </footer>
+
+</main>
+
+<div class="flash" id="flash" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<div class="backdrop" id="backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="thanksTitle">
+  <div class="card">
+    <svg class="bow" viewBox="0 0 24 16" aria-hidden="true"><use href="#bow"/></svg>
+    <h2 id="thanksTitle">Thank you.</h2>
+    <p class="msg">Now just unblock me on
+      <span class="wa"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.2c.1.2.1.4 0 .6l-.4.6-.3.3c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1c.2-.2.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2z"/></svg>WhatsApp</span>, pretty baby.
+    </p>
+    <p class="after">I&rsquo;ll be right here, waiting for your voice.</p>
+    <button type="button" id="close">Okay &#9825;</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var coarse = window.matchMedia("(pointer:coarse)").matches;
+  var small  = window.innerWidth < 620;
+
+  /* ---------- canvas helpers ----------
+     Backing stores are deliberately kept below device resolution and under a
+     hard pixel budget: these are soft blobs and confetti, and a full-res
+     canvas repainted every frame starves the main thread enough that taps on
+     the buttons stop registering. */
+  var MAX_PX = 2.6e6;
+
+  function fit(cv, quality){
+    var s = Math.min(window.devicePixelRatio || 1, 2) * quality;
+    s = Math.max(0.5, Math.min(s, 1.5));
+    var px = window.innerWidth * window.innerHeight * s * s;
+    if (px > MAX_PX) s *= Math.sqrt(MAX_PX / px);
+    cv.width  = Math.max(1, Math.round(window.innerWidth  * s));
+    cv.height = Math.max(1, Math.round(window.innerHeight * s));
+    cv.style.width  = window.innerWidth  + "px";
+    cv.style.height = window.innerHeight + "px";
+    var ctx = cv.getContext("2d");
+    ctx.setTransform(s, 0, 0, s, 0, 0);
+    return ctx;
+  }
+
+  function heartPath(g, x, y, s){
+    g.beginPath();
+    g.moveTo(x, y + s * 0.30);
+    g.bezierCurveTo(x, y, x - s * 0.50, y - s * 0.10, x - s * 0.50, y + s * 0.25);
+    g.bezierCurveTo(x - s * 0.50, y + s * 0.55, x - s * 0.20, y + s * 0.76, x, y + s);
+    g.bezierCurveTo(x + s * 0.20, y + s * 0.76, x + s * 0.50, y + s * 0.55, x + s * 0.50, y + s * 0.25);
+    g.bezierCurveTo(x + s * 0.50, y - s * 0.10, x, y, x, y + s * 0.30);
+    g.closePath();
+  }
+
+  function sparkPath(g, x, y, s){
+    g.beginPath();
+    g.moveTo(x, y - s);
+    g.quadraticCurveTo(x + s * .13, y - s * .13, x + s, y);
+    g.quadraticCurveTo(x + s * .13, y + s * .13, x, y + s);
+    g.quadraticCurveTo(x - s * .13, y + s * .13, x - s, y);
+    g.quadraticCurveTo(x - s * .13, y - s * .13, x, y - s);
+    g.closePath();
+  }
+
+  function sprite(draw){
+    var c = document.createElement("canvas"); c.width = c.height = 64;
+    draw(c.getContext("2d"));
+    return c;
+  }
+
+  function glowSprite(rgb, peak){
+    return sprite(function(g){
+      var grd = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grd.addColorStop(0,   "rgba(" + rgb + "," + peak + ")");
+      grd.addColorStop(.45, "rgba(" + rgb + "," + (peak * .32).toFixed(3) + ")");
+      grd.addColorStop(1,   "rgba(" + rgb + ",0)");
+      g.fillStyle = grd; g.fillRect(0, 0, 64, 64);
+    });
+  }
+
+  function heartSprite(rgb){
+    return sprite(function(g){
+      g.fillStyle = "rgb(" + rgb + ")";
+      heartPath(g, 32, 12, 40); g.fill();
+      g.strokeStyle = "rgba(255,255,255,.75)"; g.lineWidth = 2.5;
+      g.beginPath(); g.arc(24, 24, 4.5, Math.PI * 1.1, Math.PI * 1.7); g.stroke();
+    });
+  }
+
+  function sparkSprite(rgb){
+    return sprite(function(g){
+      g.fillStyle = "rgb(" + rgb + ")";
+      sparkPath(g, 32, 32, 28); g.fill();
+      g.fillStyle = "rgba(255,255,255,.9)";
+      sparkPath(g, 32, 32, 11); g.fill();
+    });
+  }
+
+  function pearlSprite(rgb){
+    return sprite(function(g){
+      var grd = g.createRadialGradient(25, 24, 2, 32, 32, 26);
+      grd.addColorStop(0, "rgba(255,255,255,.98)");
+      grd.addColorStop(.45, "rgba(" + rgb + ",.95)");
+      grd.addColorStop(1, "rgba(" + rgb + ",.6)");
+      g.fillStyle = grd;
+      g.beginPath(); g.arc(32, 32, 26, 0, 6.284); g.fill();
+    });
+  }
+
+  var PINK = "240,53,127", SOFT = "255,166,201", LILAC = "201,166,240",
+      GOLD = "245,200,122", PEACH = "255,198,170";
+
+  var gPink  = glowSprite(SOFT, .55),
+      gLilac = glowSprite(LILAC, .5),
+      gPeach = glowSprite(PEACH, .5);
+  var hPink  = heartSprite(PINK),
+      hSoft  = heartSprite(SOFT),
+      hLilac = heartSprite(LILAC);
+  var sGold  = sparkSprite(GOLD),
+      sPink  = sparkSprite("255,120,180");
+  var pPearl = pearlSprite(SOFT),
+      pGold  = pearlSprite(GOLD);
+
+  function rand(a, b){ return a + Math.random() * (b - a); }
+  function pick(a){ return a[(Math.random() * a.length) | 0]; }
+
+  /* ---------- ambient ---------- */
+  var amb  = document.getElementById("ambient");
+  var actx = fit(amb, 0.5);
+  var motes = [], floats = [];
+
+  function seed(){
+    motes.length = 0; floats.length = 0;
+    var nM = small ? 16 : 32, nF = small ? 12 : 22, i;
+
+    for (i = 0; i < nM; i++){
+      motes.push({
+        x: rand(0, innerWidth), y: rand(0, innerHeight),
+        r: rand(14, small ? 42 : 62), a: rand(.12, .34),
+        vx: rand(-.08, .08), vy: rand(-.16, -.04),
+        sp: pick([gPink, gPink, gLilac, gPeach]),
+        ph: rand(0, 6.28), pv: rand(.004, .011)
+      });
+    }
+    for (i = 0; i < nF; i++){
+      var kind = Math.random();
+      floats.push({
+        x: rand(0, innerWidth), y: rand(0, innerHeight),
+        r: kind < .62 ? rand(7, 15) : rand(5, 11),
+        a: rand(.35, .8),
+        vx: rand(-.12, .12), vy: rand(-.5, -.18),
+        rot: rand(-.6, .6), vr: rand(-.008, .008),
+        sp: kind < .38 ? pick([hPink, hSoft]) : (kind < .62 ? hLilac : pick([sGold, sPink, sGold])),
+        tw: kind >= .62, ph: rand(0, 6.28), pv: rand(.02, .05)
+      });
+    }
+  }
+  seed();
+
+  function drawAmbient(){
+    var W = innerWidth, H = innerHeight, i, p;
+    actx.clearRect(0, 0, W, H);
+
+    for (i = 0; i < motes.length; i++){
+      p = motes[i];
+      if (!reduce){
+        p.x += p.vx; p.y += p.vy; p.ph += p.pv;
+        if (p.y < -p.r * 2){ p.y = H + p.r * 2; p.x = rand(0, W); }
+        if (p.x < -p.r * 2) p.x = W + p.r; else if (p.x > W + p.r * 2) p.x = -p.r;
+      }
+      actx.globalAlpha = p.a * (reduce ? 1 : (.7 + .3 * Math.sin(p.ph)));
+      actx.drawImage(p.sp, p.x - p.r, p.y - p.r, p.r * 2, p.r * 2);
+    }
+
+    for (i = 0; i < floats.length; i++){
+      p = floats[i];
+      if (!reduce){
+        p.ph += p.pv;
+        p.x += p.vx + Math.sin(p.ph * .35) * .24;
+        p.y += p.vy;
+        p.rot += p.vr;
+        if (p.y < -40){ p.y = H + 40; p.x = rand(0, W); }
+      }
+      actx.globalAlpha = p.a * (reduce ? 1 : (p.tw ? (.35 + .65 * Math.abs(Math.sin(p.ph))) : (.72 + .28 * Math.sin(p.ph * .5))));
+      actx.save();
+      actx.translate(p.x, p.y);
+      actx.rotate(p.tw ? 0 : p.rot);
+      actx.drawImage(p.sp, -p.r, -p.r, p.r * 2, p.r * 2);
+      actx.restore();
+    }
+    actx.globalAlpha = 1;
+  }
+
+  /* ---------- fx: burst + rain ---------- */
+  var fx = document.getElementById("fx");
+  var fctx = fit(fx, 0.7);
+  var bits = [], rain = [], raining = false, rainAcc = 0, fxDirty = false;
+
+  function burst(cx, cy){
+    var n = small ? 58 : 94;
+    for (var i = 0; i < n; i++){
+      var ang = rand(0, Math.PI * 2), spd = rand(2.2, small ? 10 : 12.5), k = Math.random();
+      bits.push({
+        x: cx, y: cy,
+        vx: Math.cos(ang) * spd,
+        vy: Math.sin(ang) * spd - rand(1, 4),
+        r: k < .58 ? rand(8, 20) : rand(4, 11),
+        rot: rand(0, 6.28), vr: rand(-.15, .15),
+        life: 1, decay: rand(.008, .017),
+        sp: k < .34 ? hPink : k < .5 ? hSoft : k < .58 ? hLilac
+           : k < .78 ? pick([sGold, sPink]) : pick([pPearl, pGold])
+      });
+    }
+  }
+
+  function drawFx(){
+    var W = innerWidth, H = innerHeight, i, p;
+
+    /* nothing in flight: clear once, then stay off the main thread */
+    if (!bits.length && !rain.length && !raining){
+      if (fxDirty){ fctx.clearRect(0, 0, W, H); fxDirty = false; }
+      return;
+    }
+    fxDirty = true;
+    fctx.clearRect(0, 0, W, H);
+
+    for (i = bits.length - 1; i >= 0; i--){
+      p = bits[i];
+      p.vy += .16; p.vx *= .992; p.vy *= .992;
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      p.life -= p.decay;
+      if (p.life <= 0 || p.y > H + 80){ bits.splice(i, 1); continue; }
+      fctx.globalAlpha = Math.max(0, p.life);
+      fctx.save();
+      fctx.translate(p.x, p.y); fctx.rotate(p.rot);
+      fctx.drawImage(p.sp, -p.r, -p.r, p.r * 2, p.r * 2);
+      fctx.restore();
+    }
+
+    if (raining){
+      rainAcc++;
+      var cap = small ? 26 : 40;
+      if (rainAcc > (small ? 20 : 13) && rain.length < cap){
+        rainAcc = 0;
+        var k = Math.random();
+        rain.push({
+          x: rand(0, W), y: -40,
+          r: rand(8, small ? 16 : 20), a: rand(.45, .95),
+          vy: rand(.7, 1.9), rot: rand(-.6, .6), vr: rand(-.01, .01),
+          ph: rand(0, 6.28), pv: rand(.012, .032),
+          sp: k < .45 ? hPink : k < .68 ? hSoft : k < .82 ? hLilac : pick([sGold, pPearl])
+        });
+      }
+      for (i = rain.length - 1; i >= 0; i--){
+        p = rain[i];
+        p.ph += p.pv;
+        p.y += p.vy; p.x += Math.sin(p.ph) * .7; p.rot += p.vr;
+        if (p.y > H + 60){ rain.splice(i, 1); continue; }
+        fctx.globalAlpha = p.a;
+        fctx.save();
+        fctx.translate(p.x, p.y); fctx.rotate(p.rot);
+        fctx.drawImage(p.sp, -p.r, -p.r, p.r * 2, p.r * 2);
+        fctx.restore();
+      }
+    }
+    fctx.globalAlpha = 1;
+  }
+
+  if (reduce){
+    drawAmbient();
+  } else {
+    /* the ambient drift is slow enough that 30fps is indistinguishable from
+       60, and it halves the per-frame cost. The burst still runs every frame. */
+    var lastAmb = 0;
+    requestAnimationFrame(function loop(t){
+      if (t - lastAmb >= 32){ lastAmb = t; drawAmbient(); }
+      drawFx();
+      requestAnimationFrame(loop);
+    });
+  }
+
+  /* ---------- the question ---------- */
+  var ask      = document.getElementById("ask");
+  var yes      = document.getElementById("yes");
+  var no       = document.getElementById("no");
+  var flash    = document.getElementById("flash");
+  var backdrop = document.getElementById("backdrop");
+  var closeBtn = document.getElementById("close");
+  var page     = document.getElementById("page");
+
+  var STEPS = 6;
+  var count = 0, done = false, maxScale = 2.4, baseW = 0;
+
+  function measure(){
+    if (!baseW) baseW = yes.offsetWidth || 110;
+    maxScale = Math.max(1.55, Math.min(coarse ? 2.25 : 2.6, (innerWidth - 34) / baseW));
+  }
+  measure();
+
+  var rt, lastW = innerWidth;
+  window.addEventListener("resize", function(){
+    clearTimeout(rt);
+    rt = setTimeout(function(){
+      var w = innerWidth;
+      actx = fit(amb, 0.5); fctx = fit(fx, 0.7); fxDirty = false;
+      if (Math.abs(w - lastW) > 60){
+        lastW = w; small = w < 620;
+        seed();
+      }
+      baseW = 0; measure();
+      if (reduce) drawAmbient();
+    }, 200);
+  });
+
+  function scaleOf(c){ return Math.min(1 + c * 0.28, maxScale); }
+
+  no.addEventListener("click", function(){
+    if (done) return;
+    count++;
+
+    yes.style.transform = "scale(" + scaleOf(count).toFixed(3) + ")";
+    yes.style.boxShadow = "0 " + (12 + count * 5) + "px " + (26 + count * 12) +
+                          "px -10px rgba(240,53,127,.9), inset 0 2px 0 rgba(255,255,255,.5)";
+
+    no.style.transform = "scale(" + Math.pow(0.74, count).toFixed(3) + ")";
+    no.style.opacity   = Math.max(.28, 1 - count * 0.12).toFixed(2);
+
+    if (count >= STEPS) explode();
+  });
+
+  yes.addEventListener("click", function(){ if (!done) explode(); });
+
+  function explode(){
+    if (done) return;
+    done = true;
+
+    var r  = yes.getBoundingClientRect();
+    var cx = r.left + r.width / 2;
+    var cy = r.top  + r.height / 2;
+
+    if (reduce){
+      ask.classList.add("gone");
+      setTimeout(openModal, 220);
+      return;
+    }
+
+    yes.style.transition = "transform .16s cubic-bezier(.3,1.8,.6,1), opacity .16s ease";
+    yes.style.transform  = "scale(" + (scaleOf(count) * 1.2).toFixed(3) + ")";
+
+    setTimeout(function(){
+      yes.style.opacity = "0";
+      yes.style.transform = "scale(0)";
+      no.style.opacity = "0";
+
+      flash.style.left = cx + "px";
+      flash.style.top  = cy + "px";
+      flash.classList.remove("go");
+      void flash.offsetWidth;
+      flash.classList.add("go");
+
+      burst(cx, cy);
+
+      page.classList.add("shake");
+      setTimeout(function(){ page.classList.remove("shake"); }, 520);
+      setTimeout(function(){ ask.classList.add("gone"); }, 320);
+      setTimeout(openModal, 950);
+    }, 165);
+  }
+
+  function openModal(){
+    backdrop.hidden = false;
+    void backdrop.offsetWidth;
+    backdrop.classList.add("show");
+    raining = true;
+    closeBtn.focus();
+  }
+
+  function closeModal(){
+    backdrop.classList.remove("show");
+    setTimeout(function(){ backdrop.hidden = true; }, 520);
+  }
+
+  closeBtn.addEventListener("click", closeModal);
+  backdrop.addEventListener("click", function(e){ if (e.target === backdrop) closeModal(); });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && !backdrop.hidden) closeModal();
+  });
+
+  /* ---------- touch & pointer sparkle ---------- */
+  function sprinkle(x, y, n, up){
+    for (var i = 0; i < n; i++){
+      var k = Math.random();
+      bits.push({
+        x: x + rand(-8, 8), y: y + rand(-8, 8),
+        vx: rand(-1.1, 1.1), vy: up ? rand(-1.3, -.3) : rand(-3.4, -1),
+        r: rand(6, 13), rot: rand(-.6, .6), vr: rand(-.05, .05),
+        life: .9, decay: .024,
+        sp: k < .5 ? hPink : k < .75 ? hSoft : pick([sGold, sPink])
+      });
+    }
+  }
+
+  if (!reduce){
+    if (coarse){
+      document.addEventListener("pointerdown", function(e){
+        sprinkle(e.clientX, e.clientY, 8, false);
+      }, {passive: true});
+    } else {
+      var last = 0;
+      window.addEventListener("pointermove", function(e){
+        var now = performance.now();
+        if (now - last < 72) return;
+        last = now;
+        sprinkle(e.clientX, e.clientY, 1, true);
+      }, {passive: true});
+    }
+  }
+})();
+</script>
+
+</body>
+</html>

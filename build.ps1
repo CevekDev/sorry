@@ -21,6 +21,13 @@ $pages = @(
         lang    = 'fr'
         ogTitle = 'Sors avec moi'
         ogDesc  = "Une question, un calendrier, et une soiree a choisir."
+    },
+    @{
+        src     = 'minuit.html'
+        out     = 'gala.html'
+        lang    = 'fr'
+        ogTitle = 'Minuit dore'
+        ogDesc  = "Une invitation. Reponds, choisis le soir, choisis la soiree."
     }
 )
 
